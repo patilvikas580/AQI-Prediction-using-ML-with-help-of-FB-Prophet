@@ -2,12 +2,12 @@
 ## Project Workflow
 **Loading Data:**
 <br>
-- The air quality data is loaded into a Pandas DataFrame from a CSV file.
+- The air quality data is loaded into a Pandas DataFrame from a CSV file.<br>
 **Data Cleaning:**
 
-- The data is initially not in the correct format. Adjustments are made to handle delimiters and decimal points.
+- The data is initially not in the correct format. Adjustments are made to handle delimiters and decimal points.<br>
 **Unnecessary columns are removed.**
-- Missing values, represented by -200, are replaced with NaN and subsequently filled with the mean of their respective columns.
+- Missing values, represented by -200, are replaced with NaN and subsequently filled with the mean of their respective columns.<br>
 **Data Preparation:**
 
 - Date and time columns are converted to appropriate formats and combined into a single column.
@@ -18,19 +18,19 @@
 - The results are visualized to understand future trends and seasonal components.
 ## Steps in Detail
 **Loading Data**
-- The data is loaded using Pandas' read_csv function. Proper delimiters and decimal separators are specified to ensure correct data formatting.
+- The data is loaded using Pandas' read_csv function. Proper delimiters and decimal separators are specified to ensure correct data formatting.<br>
 
 **python**
-- air_quality_data = pd.read_csv('/content/AirQualityUCI.csv', sep=';', decimal=',')
+- air_quality_data = pd.read_csv('/content/AirQualityUCI.csv', sep=';', decimal=',')<br>
 **Data Cleaning**
-- Unnecessary columns are removed, and missing values are handled:
+- Unnecessary columns are removed, and missing values are handled:<br>
 
  **code**
 air_quality_data = air_quality_data.iloc[:, :-2]
 air_quality_data = air_quality_data.replace(to_replace=-200, value=np.NaN)
 air_quality_data = air_quality_data.fillna(air_quality_data.mean())
 Data Preparation
-Date and time columns are combined, and a new DataFrame is created for the Prophet model:
+Date and time columns are combined, and a new DataFrame is created for the Prophet model:<br>
 
  **code**
 date_info = pd.to_datetime(air_quality_data['Date'])
@@ -40,34 +40,34 @@ date_time['ds'] = date_time['Date'].astype(str) + ' ' + date_time['Time'].astype
 
 data = pd.DataFrame()
 data['ds'] = pd.to_datetime(date_time['ds'], format="%Y-%m-%d %H:%M:%S")
-data['y'] = air_quality_data['RH']
+data['y'] = air_quality_data['RH']<br>
 ## Forecasting
-**The Prophet model is trained and used to predict future trends:**
-**code**
+**The Prophet model is trained and used to predict future trends:** <br>
+**code** <br>
 from prophet import Prophet
 
 model = Prophet()
 model.fit(data)
 
 future = model.make_future_dataframe(periods=365, freq='H')
-forecast = model.predict(future)
+forecast = model.predict(future) <br>
 **Visualization**
-The forecast results are visualized to understand future trends:
+The forecast results are visualized to understand future trends: <br>
 **code**
 fig1 = model.plot(forecast)
-fig2 = model.plot_components(forecast)
+fig2 = model.plot_components(forecast) <br>
 ## Conclusion
--This project demonstrates the complete workflow of data cleaning, preparation, and forecasting using a real-world air quality dataset. The Prophet library is used for time series forecasting, providing insights into future trends and seasonal patterns in the data.
+-This project demonstrates the complete workflow of data cleaning, preparation, and forecasting using a real-world air quality dataset. The Prophet library is used for time series forecasting, providing insights into future trends and seasonal patterns in the data. <br>
 
 ## Dependencies
 - Python 3.x
 - Pandas
 - Numpy
-- Prophet
+- Prophet <br>
 **Usage**
 - Clone the repository.
 - Ensure you have the necessary dependencies installed.
-- Run the script to see the data analysis and forecasting results.
+- Run the script to see the data analysis and forecasting results. <br>
 ## License
 This project is licensed under the MIT License. Feel free to use and modify it as per your needs.
 
